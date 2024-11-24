@@ -1,0 +1,756 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 205px;
+    background: #575068;
+    color: white;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-brand {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #F29A30;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    flex-grow: 1;
+}
+
+.sidebar-menu li {
+    padding: 12px 20px;
+    transition: background 0.3s;
+}
+
+.sidebar-menu a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.sidebar-menu a:hover {
+    color: #E1D8EF;
+    text-decoration: none;
+}
+
+.sidebar-menu li:hover {
+    background: #F29A30;
+    cursor: pointer;
+}
+
+.sidebar-menu li i {
+    margin-right: 10px;
+    width: 20px;
+}
+
+.logout-btn {
+    padding: 8px 16px;
+    background: #F29A30;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.logout-btn:hover {
+    background: #000000;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    background: #f5f6fa;
+}
+
+/* Header Styles */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-logout-btn:hover {
+    background: #575068;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar-brand h2,
+    .sidebar-menu span {
+        display: none;
+    }
+
+    .sidebar-menu li {
+        text-align: center;
+        padding: 12px;
+    }
+
+    .sidebar-menu li i {
+        margin: 0;
+    }
+
+    .logout-section span {
+        display: none;
+    }
+
+    .logout-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .account-info {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .account-details p {
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .users-section {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .users-table th, .users-table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}
+
+/* admin account */
+.account-info {
+    background: white;
+    padding: 30px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.account-info h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.account-details {
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #555;
+}
+
+.account-details p {
+    margin: 8px 0;
+}
+
+.account-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.update-btn {
+    padding: 8px 16px;
+    background: #F29A30;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.update-btn:hover {
+    background: #000000;
+}
+
+/* Users */
+.users-section {
+    background: white;
+    padding: 30px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Adds horizontal scroll if table is too wide */
+}
+
+.users-section h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed; /* This is important for fixed column widths */
+}
+
+/* Define specific widths for each column */
+.users-table th:nth-child(1), 
+.users-table td:nth-child(1) {
+    width: 25%; /* User Name column */
+}
+
+.users-table th:nth-child(2), 
+.users-table td:nth-child(2) {
+    width: 35%; /* Email column */
+}
+
+.users-table th:nth-child(3), 
+.users-table td:nth-child(3) {
+    width: 15%; /* Status column */
+}
+
+.users-table th:nth-child(4), 
+.users-table td:nth-child(4) {
+    width: 25%; /* Actions column */
+}
+
+.users-table th, 
+.users-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides overflow content */
+    text-overflow: ellipsis; /* Shows ... for overflow content */
+}
+
+.users-table th {
+    background-color: #575068;
+    color: white;
+}
+
+.users-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.users-table td a {
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background 0.3s;
+    display: inline-block; /* Prevents button from stretching */
+    min-width: 100px; /* Minimum width for buttons */
+    text-align: center;
+}
+
+.deactivate-btn {
+    background: #e74c3c;
+    color: white;
+}
+
+.deactivate-btn:hover {
+    background: #FF0000;
+}
+
+.reactivate-btn {
+    background: #4CAF50;
+    color: white;
+}
+
+.reactivate-btn:hover {
+    background: #5ADE02;
+}
+
+.status-circle {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Active status circle (green) */
+.status-circle.active {
+    background-color: #66FF00;
+}
+
+/* Inactive status circle (red) */
+.status-circle.inactive {
+    background-color: red;
+}  
+
+
+
+/* Edit Product Form Layout */
+.edit-product-form {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.edit-product-form h2 {
+    color: var(--dark-color);
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Form Layout Container */
+.form-container {
+    display: flex;
+    gap: 30px;
+}
+
+.add-product-form {
+    margin: 10px;
+}
+
+/* Main Form Content */
+.form-main-content {
+    flex: 1;
+    margin: 10px;
+}
+
+/* Image Section */
+.form-image-section {
+    width: 300px;
+    background: var(--light-color);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin: 10px;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Image Preview */
+.image-preview-container {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.image-preview-container label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.current-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Form Actions */
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.save-btn {
+    background-color: #F29A30;
+    color: white;
+    padding: 10px 20px;
+}
+
+.save-btn:hover {
+    background-color: #F29A30;
+}
+
+.cancel-btn {
+    border: 2px solid #000000;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+.save-btn:hover,
+.cancel-btn:hover {
+    opacity: 0.9;
+}
+
+/* Error Message */
+.error {
+    color: var(--error-color);
+    background: #ffebee;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .form-container {
+        flex-direction: column;
+    }
+    
+    .form-image-section {
+        width: 100%;
+    }
+    
+    .image-preview-container {
+        display: inline-block;
+        width: calc(50% - 10px);
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-preview-container {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* Product Image */
+.product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #E1D8EF;
+}
+
+/* Action Buttons */
+.button-container {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #000000;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #F29A30;
+}
+
+.delete-btn {
+    background-color: #ef4444;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #dc2626;
+}
+
+/* Product Management Container */
+.product-management {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    height: calc(100vh - 140px); /* Adjusted for both headers */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #E1D8EF transparent;
+    margin-top: 20px; /* Space for the top header */
+}
+
+.product-management::-webkit-scrollbar {
+    width: 6px;
+}
+
+.product-management::-webkit-scrollbar-thumb {
+    background-color: #E1D8EF;
+    border-radius: 3px;
+}
+
+/* Sticky Controls Header */
+.sticky-header {
+    position: sticky;
+    top: 90px;
+    background: white;
+    padding: 16px 24px;
+    border-bottom: 1px solid #f0f0f0;
+    z-index: 100;
+}
+
+/* Controls Layout */
+.controls-container {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    align-items: center;
+    gap: 20px;
+    padding: 0 24px;
+}
+
+/* Filter centered */
+.filter-form {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-grow: 1; /* Takes available space */
+    justify-content: center;
+    order: 2; /* Second item */
+}
+
+/* Table Container with sticky header */
+.table-container {
+    position: relative;
+    padding: 0 24px 24px;
+    overflow: hidden; /* Hide overflow for scroll effect */
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    background: white;
+}
+
+tbody {
+    position: relative;
+}
+
+th {
+    background-color: #575068;
+    padding: 16px;
+    text-align: left;
+    color: white;
+    font-weight: 600;
+}
+
+td {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #4b5563;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Preserved existing styles for filter form elements */
+.filter-form label {
+    color: #4a5568;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.filter-form select {
+    padding: 8px 12px;
+    border: 1px solid #E1D8EF;
+    border-radius: 6px;
+    background-color: white;
+    color: #4a5568;
+    min-width: 200px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.filter-form button {
+    padding: 8px 16px;
+    background-color: #F29A30;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Pagination moved to left */
+.pagination {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    min-width: 400px;
+    max-width: fit-content;
+    white-space: nowrap;
+    overflow: auto;
+}
+
+.pagination a {
+    padding: 8px 16px;
+    border: 1px solid #E1D8EF;
+    background: #fff;
+    border-radius: 6px;
+    color: #4a5568;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    min-width: 42px;
+    text-align: center;
+    flex-shrink: 0; /* Prevent items from shrinking */
+}
+
+.pagination a:hover:not(.disabled) {
+    background-color: #f8fafc;
+    color: #000000;
+}
+
+.pagination a.active {
+    background-color: #F29A30;
+    color: white;
+    border-color: #F29A30;
+}
+
+.pagination-ellipsis {
+    color: #4a5568;
+    padding: 8px 4px;
+    flex-shrink: 0; /* Prevent ellipsis from shrinking */
+}
+
+.pagination-arrow {
+    font-size: 18px;
+    padding: 8px 12px !important;
+}
+
+.pagination-arrow.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .sticky-header {
+        padding: 16px;
+    }
+    
+    .filter-form {
+        flex-wrap: wrap;
+    }
+    
+    .filter-form select {
+        min-width: 160px;
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-management {
+        height: calc(100vh - 60px);
+    }
+    
+    .sticky-header h2 {
+        font-size: 20px;
+    }
+    
+    .btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    
+    thead {
+        top: 120px;
+    }
+}
+

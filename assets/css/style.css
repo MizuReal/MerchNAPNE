@@ -1,0 +1,812 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.nav-buttons {
+    margin-left: 20%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+h5 {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+h6 {
+    color: #d8d8d8d8;
+}
+
+.navbar {
+    font-size: 16px;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    top: 0;
+    left: 0;
+    box-shadow: 0 5px 10px cyan;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    padding: 0 20px;
+    color: #000;
+    transition: color 0.4s ease; /* Fixed transition property */
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar i:hover,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar i:hover {
+    color: turquoise;
+}
+
+/* Add margin to the right of the shopping bag icon */
+.nav-link .fa-shopping-bag {
+    margin-right: 15px; /* Adjust this value to increase/decrease the space */
+}
+@media only screen and (max-width: 990px)
+{
+    .nav-buttons{
+        margin: 5px;
+    }
+    .nav-buttons ul{
+        margin: 0.5rem;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .nav-buttons ul .fas{
+        margin: 10px 5px 5px 20px; 
+    }
+}
+
+#home {
+    background-image: url('../imgs/hololivecollab.png');
+    width: 100%;
+    height: 60vh; /* Adjust height for fixed navbar */
+    background-size: cover;
+    background-position: center; /* Center the background image */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative; /* Ensure stacking context for overlay */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#new, #featured {
+    margin-bottom: 0;
+    padding-top: 5px;
+}
+
+
+#home span{
+    color: turquoise;
+}
+
+
+#new .one img{
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#new .one {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center align children */
+    position: relative;
+}
+
+#new .one .details {
+    display: flex;
+    flex-direction: column; /* Stack text and button vertically */
+    align-items: center; /* Center align content */
+    justify-content: center; /* Center vertically */
+    position: absolute; /* Overlay on image */
+    top: 0;
+    left: 0;
+    color: coral;
+    font-weight: bold;
+    transition: 0.4s ease;
+    opacity: 1; /* Adjust opacity */
+    background-color: rgba(34, 30, 30, 0.5); /* Make the background slightly transparent */
+    width: 100%;
+    height: 100%;
+    text-align: center; /* Center text */
+}
+/* Hover effect for Featured Buy Now buttons */
+.buy-btn {
+    background-color: coral;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.buy-btn:hover {
+    background-color: #ff7f50; /* Slightly lighter coral */
+    transform: scale(1.05); /* Scale up slightly */
+}
+
+
+.btn-custom {
+    color: #000; /* Match the text color of the navbar links */
+    background-color: transparent; /* Transparent background for button */
+    border: 2px solid #000; /* Solid border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Add padding for better size */
+    font-weight: 500; /* Match the navbar font weight */
+    font-size: 1rem; /* Set font size to match navbar */
+    margin-top: 10px; /* Add some spacing from the text above */
+    transition: background-color 0.4s ease, color 0.4s ease; /* Transition for background and text color */
+}
+
+.btn-custom:hover {
+    color: #fff; /* Change text color on hover */
+    background-color: coral; /* Change background color on hover */
+    border: 2px solid coral; /* Change border color on hover */
+}
+
+#new .one .details:hover
+{
+    background-color: turquoise;
+}
+
+
+#new .one:nth-child(1) .details
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#new .one:nth-child(2) .details
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+
+#new .one:nth-child(3) .details
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Add margin to brand images */
+#brand img {
+    margin-bottom: 20px; /* Adjust as needed for spacing */
+}
+
+/* Add margin to new section */
+#new {
+    margin-top: 40px; /* Add space above the new section */
+}
+#brand {
+    margin-top: 50px; /* Add margin to the top of the brand section */
+}
+
+/* Product */
+.product
+{
+    cursor: pointer;
+    margin-bottom: 2rem;
+}
+.product img
+{
+    transition: 0.3s all ;;
+}
+.product:hover img{
+    opacity:0.7
+}
+
+.product .buy-btn
+{
+    transform: translateY(50px);
+    opacity: 0;
+    transition: 0.3s all;;
+}
+
+.shop-buy-btn{
+    background-color: coral;
+    opacity: 1;
+    color: white;
+    text-decoration: none;
+}
+
+.product:hover .buy-btn
+{
+    transform: translateY(0);
+    opacity: 1;
+}
+
+hr{
+    width: 30px;
+    height: 3px !important;
+    opacity: 1 !important;
+    background-color: coral;
+}
+
+.star
+{
+    padding: 10px 0;
+}
+
+.star i{
+    font-size: 0.9rem;
+    color:goldenrod;
+}
+
+#banner{
+    background-image: url('../imgs/hololivecollab.png');
+    width: 100%;
+    height: 60vh; /* Adjust height for fixed navbar */
+    background-size: cover;
+    background-position: center; /* Center the background image */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative; /* Ensure stacking context for overlay */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+#banner h1{
+    color: turquoise;
+}
+#banner h4{
+    color: turquoise;
+}
+#banner button{
+    background-color: turquoise;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+footer {
+    background-color: turquoise;
+}
+
+footer h5
+{
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+footer li
+{
+    padding-bottom: 4px;
+}
+
+footer li a
+{
+    font-size: 0.8rem;
+    color: coral;
+    text-decoration: none;
+}
+
+footer li a:hover{
+    color: white;
+}
+
+footer .copyright a
+{
+    color: black;
+    height: 40px;
+    width: 40px;
+    background-color: white;
+    display: inline-block;
+    text-align: center;
+    line-height: 38px;
+    border-radius: 50%;
+    transition: 0.3s ease;
+    margin: 0 5px;
+}
+
+footer .copyright a:hover{
+    color: blue;
+    background-color: coral;
+}
+
+footer p
+{
+    color: black;
+}
+
+footer .copyright img{
+    width: 70%;
+}
+
+.logo{
+    width: 40px;
+    height: 40px;
+}
+
+.navbar .brand
+{
+    color: turquoise;
+    margin: 3px 5px;
+    font-size: 1.5rem;
+}
+
+
+
+.small-img-group{
+    display: flex;
+    justify-content: space-between;
+}
+
+.small-img-col{
+    flex-basis: 24%;
+    cursor: pointer;
+}
+
+.single-product input{
+    width: 50px;
+    height: 40px;
+    padding-left: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.single-product input:focus{
+    outline: none;
+}
+
+.single-product .buy-btn{
+    background-color: coral;
+    opacity: 1;
+    transition: 0.4s all;
+}
+
+.single-product .buy-btn:hover{
+    background-color: turquoise;
+}
+
+/* Cart */
+.cart table{
+    width: 100;
+    border-collapse: collapse;
+}
+
+.cart .product-info
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cart th{
+    text-align: left;
+    padding: 5px 10px;
+    color: white;
+    background-color: coral;
+}
+
+.cart td{
+    padding: 10px 20px;
+}
+
+.cart td img{
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+}
+
+.cart td input
+{
+    width: 40px;
+    height: 30px;
+    padding: 5px;
+}
+
+.cart td a{
+    color: coral;
+}
+
+.cart .remove-btn{
+    color: coral;
+    text-decoration: none;
+    font-size: 15px;
+    background-color: white;
+    border: none;
+    width: 100%;
+}
+
+.cart .edit-btn
+{
+    color: coral;
+    text-decoration: none;
+    font-size: 14px;
+    background-color: white;
+    border-color: coral;
+}
+
+.cart .product-info p{
+    margin: 3px;
+}
+
+.cart {
+    margin: 0 auto; /* Centers the section */
+    padding: 20px; /* Adds padding around the section */
+    max-width: 800px; /* Sets a maximum width */
+}
+
+table {
+    width: 100%; /* Makes the table take full width of the container */
+    border-collapse: collapse; /* Removes spacing between table cells */
+}
+
+th, td {
+    padding: 10px; /* Adds padding to table cells */
+    text-align: left; /* Aligns text to the left */
+    border-bottom: 1px solid #ddd; /* Adds a bottom border to each row */
+}
+
+.cart-total{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cart-total table{
+    width: 100%;
+    max-width: 500px;
+    border-top: 3px solid coral;
+}
+
+td:last-child{
+    text-align: right;
+}
+
+.checkout-container{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.checkout-btn{
+    display: flex;
+    justify-content: flex-end;
+    background-color: coral;
+}
+
+/* login */
+#login-form
+{
+    width: 50%;
+    margin: 5px auto;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid coral;
+}
+
+#login-form input{
+    width: 50%;
+    margin: 5px auto;
+}
+
+#login-form #login-btn{
+    background-color: coral;
+    color: white;
+}
+
+#login-form #register-url{
+    color: coral;
+}
+
+
+/* Register */
+#register-form{
+    width: 50%;
+    margin: 5px auto;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid coral;
+}
+
+#register-form input{
+    width: 50%;
+    margin: 5px auto;
+}
+
+#register-form #register-btn{
+    background-color: coral;
+    color: white;
+}
+
+#register-form #login-url{
+    color: coral;
+}
+
+/* Account */
+#account-form{
+    width: 50%;
+    margin: 35px auto;
+    text-align: center;
+    padding: 20px;
+}
+
+#account-form input{
+    margin: 5px auto;
+}
+
+#account-form #change-pass-btn{
+    color: white;
+    background-color: coral;
+}
+
+
+#account-form #update-info-btn{
+    background-color: coral;
+    color: white;
+    border: none; /* Optional: Removes any border */
+    padding: 8px 16px; /* Optional: Adjust padding */
+    border-radius: 5px; /* Optional: Makes the button corners rounded */
+    cursor: pointer; /* Makes the button look clickable */
+    font-size: 14px; /* Adjust font size if needed */
+}
+
+
+
+
+
+
+
+.account-info #orders-btn,#logout-btn{
+    color: coral;
+    text-decoration: none;;
+}
+
+
+/* Ensure table width is 100% */
+.orders {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Banner / Header Styling */
+.orders th {
+    background-color: turquoise; /* Set the background color for the header */
+    color: #333; /* Adjust text color if needed */
+    padding: 15px; /* Add some padding for better spacing */
+}
+
+/* Distribute columns evenly (20% each column for a 5-column layout) */
+.orders th, .orders td {
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.orders th:nth-child(1), /* Product Column */
+.orders td:nth-child(1) {
+    width: 10%;
+    text-align: left; /* Align Product image or name to the left */
+}
+
+.orders th:nth-child(2), /* Order Cost Column */
+.orders td:nth-child(2) {
+    width: 20%;
+    text-align: center; /* Align Order Cost to the right */
+}
+
+.orders th:nth-child(3), /* Order Status Column */
+.orders td:nth-child(3) {
+    width: 20%;
+    text-align: center; /* Center Order Status */
+}
+
+.orders th:nth-child(4), /* Order Date Column */
+.orders td:nth-child(4) {
+    width: 15%;
+}
+
+.orders th:nth-child(5), /* Order Details Button Column */
+.orders td:nth-child(5) {
+    width: 20%;
+    text-align: right; /* Center the Order Details button */
+}
+
+/* Product Image Styling */
+.orders td img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+}
+
+/* Order Details Button Styling */
+.orders .order-details-btn {
+    color: white;
+    background-color: coral;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Checkout */
+#checkout-form .checkout-small-element{
+    display: inline-block;
+    width: 48%;
+    margin: 10px auto;
+}
+
+#checkout-form .checkout-large-element{
+    width: 96%;
+}
+
+#checkout-form .checkout-btn-container{
+    margin: 10px;
+    text-align: right;
+    margin-right: 40px;
+}
+
+#checkout-form #checkout-btn{
+    color: white;
+    background-color: coral;
+}
+
+#contact span{
+    color: coral;
+}
+.category-filter {
+    padding-top: 80px; /* Adjust based on your navbar height */
+}
+
+.upload{
+    width: 125px;
+    position: relative;
+    margin: auto;
+  }
+  
+  .upload img{
+    border-radius: 50%;
+    border: 8px solid #DCDCDC;
+  }
+  
+  .upload .round{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #00B4FF;
+    width: 32px;
+    height: 32px;
+    line-height: 33px;
+    text-align: center;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .upload .round input[type = "file"]{
+    position: absolute;
+    transform: scale(2);
+    opacity: 0;
+  }
+  
+  input[type=file]::-webkit-file-upload-button{
+      cursor: pointer;
+  }
+
+
+ /* Apply Filters Button */
+.filter-sidebar .btn-custom {
+    display: block;
+    width: 100%; /* Ensure it stretches fully like before */
+    margin-top: 30px; /* Add space to lower the button */
+    padding: 10px 20px; /* Adjust padding for a better look */
+    font-size: 1rem; /* Keep the button text size consistent */
+    background-color: #fff; /* Optional: change the button color if needed */
+    color: #000; /* Button text color */
+    border: 2px solid #000; /* Add border to match the design */
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.filter-sidebar .btn-custom:hover {
+    background-color: coral;
+    color: #fff;
+    border-color: coral;
+}
+
+
+
+.details-btn {
+    background-color: coral;
+    color: white;
+    border: none; /* Optional: Removes any border */
+    padding: 8px 16px; /* Optional: Adjust padding */
+    border-radius: 5px; /* Optional: Makes the button corners rounded */
+    cursor: pointer; /* Makes the button look clickable */
+    font-size: 14px; /* Adjust font size if needed */
+}
+
+
+.update-name-btn{
+    background-color: coral;
+    color: white;
+    border: none; /* Optional: Removes any border */
+    padding: 8px 16px; /* Optional: Adjust padding */
+    border-radius: 5px; /* Optional: Makes the button corners rounded */
+    cursor: pointer; /* Makes the button look clickable */
+    font-size: 14px; /* Adjust font size if needed */
+}
+
+.update-email-btn{
+    background-color: coral;
+    color: white;
+    border: none; /* Optional: Removes any border */
+    padding: 8px 16px; /* Optional: Adjust padding */
+    border-radius: 5px; /* Optional: Makes the button corners rounded */
+    cursor: pointer; /* Makes the button look clickable */
+    font-size: 14px; /* Adjust font size if needed */
+}
+
+
+
+
+
+    .profile-image-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+    .upload-overlay {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+    .upload-overlay label {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .upload-overlay label:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+    .upload-overlay i {
+        color: white;
+    }
