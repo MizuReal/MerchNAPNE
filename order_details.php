@@ -90,7 +90,7 @@ if (isset($_POST['order_details_btn']) && isset($_POST['order_id'])) {
     </table>
 
     <?php if (isset($order_status) && strtolower($order_status) == "on hold") { ?>
-        <form style="float: right;" method="POST" action="payment.php">
+        <form style="float: right;" method="POST" action="payment_processor.php">
             <input type="hidden" name="order_total_price" value="<?php echo htmlspecialchars($order_total_price); ?>" />
             <input type="hidden" name="order_id" value="<?php echo htmlspecialchars($order_id); ?>" />
             <input type="submit" name="order_pay_button" class="btn btn-primary" value="Pay Now" />

@@ -1,8 +1,12 @@
-<?php include('layouts/header.php');?>
+<?php include('layouts/header.php');
+session_start()
+?>
 
-
-<?php 
+<?php
 include('server/connection.php');
+include('reviews.php');
+include('edit_review.php');
+
 
 if(isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
@@ -11,16 +15,20 @@ if(isset($_GET['product_id'])) {
     $stmt->execute();
     
     $product = $stmt->get_result(); // This is an array
-
-    $comments_query = "
-        SELECT c.*, u.user_name
-        FROM comments c
-        JOIN users u ON c.user_id = u.user_id
-        WHERE c.product_id = $product_id
-    ";
-    $comments = $conn->query($comments_query);
 } else {
     header('location: index.php');
+}
+
+if (isset($_GET['product_id'])) {
+    $product_id = $_GET['product_id'];
+    $stmt = $conn->prepare("SELECT reviews.review_text, reviews.review_date, users.user_name 
+                            FROM reviews 
+                            INNER JOIN users ON reviews.user_id = users.user_id 
+                            WHERE reviews.product_id = ? 
+                            ORDER BY reviews.review_date DESC");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $reviews = $stmt->get_result();
 }
 
 // Fetch the current product based on the product_id in the URL
@@ -35,6 +43,21 @@ $product_category = $current_product['product_category'];
 // Fetch related products from the same category
 $related_products_query = "SELECT * FROM products WHERE product_category = '$product_category' AND product_id != '$product_id' LIMIT 4";
 $related_products_result = $conn->query($related_products_query); // Replaced $mysqli with $conn
+
+if (isset($_GET['product_id'])) {
+    $product_id = $_GET['product_id'];
+    // Updated query to include reviews.user_id in the SELECT statement
+    $stmt = $conn->prepare("SELECT reviews.review_id, reviews.review_text, reviews.review_date, 
+                           reviews.user_id, users.user_name 
+                           FROM reviews 
+                           INNER JOIN users ON reviews.user_id = users.user_id 
+                           WHERE reviews.product_id = ? 
+                           ORDER BY reviews.review_date DESC");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $reviews = $stmt->get_result();
+}
+
 ?>
 
 
@@ -109,37 +132,121 @@ $related_products_result = $conn->query($related_products_query); // Replaced $m
     </div>
 </section>
 
-
-<!-- comments -->
-<section class="container product-comments my-5">
-    <h4>Comments</h4>
-    <hr>
-
-    <?php if ($comments->num_rows > 0): ?>
-        <?php while ($comment = $comments->fetch_assoc()): ?>
-            <div class="comment">
-                <p><strong><?php echo htmlspecialchars($comment['user_name']); ?></strong> <small><?php echo $comment['comment_date']; ?></small></p>
-                <p><?php echo htmlspecialchars($comment['comment_text']); ?></p>
+<!-- Reviews Section -->
+<div class="container my-5">
+    <div class="row">
+        <!-- Reviews Container -->
+        <div class="col-md-8">
+            <div class="product-reviews">
+                <h4>Reviews</h4>
                 <hr>
-            </div>
-        <?php endwhile; ?>
-    <?php else: ?>
-        <p>No comments yet. Be the first to leave a review!</p>
-    <?php endif; ?>
-</section>
+                <?php
+                $bad_words = array('fuck', 'shit', 'bitch');
+                $pattern = '/(' . implode('|', array_map('preg_quote', $bad_words)) . ')/i';
 
-<!-- comment form -->
-<section class="container add-comment my-5">
-    <h4>Leave a Comment</h4>
-    <form action="submit_comment.php" method="POST">
-        <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
-        <input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>">
-        <div class="mb-3">
-            <textarea class="form-control" id="comment_text" name="comment_text" rows="3" required></textarea>
+                if ($reviews && $reviews->num_rows > 0): ?>
+                    <div class="reviews-container">
+                    <?php while ($review = $reviews->fetch_assoc()): ?>
+                        <div class="review card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">
+                                    <strong><?php echo htmlspecialchars($review['user_name']); ?></strong>
+                                    <small class="text-muted ms-2">
+                                        <?php echo date('F j, Y', strtotime($review['review_date'])); ?>
+                                    </small>
+                                </h6>
+                                <p class="card-text mt-2">
+                                    <?php
+                                    $filtered_review_text = preg_replace_callback($pattern, function ($matches) {
+                                        return str_replace($matches[0], '[filtered]', $matches[0]);
+                                    }, $review['review_text']);
+                                    echo htmlspecialchars($filtered_review_text);
+                                    ?>
+                                </p>
+                                <!-- Edit Button -->
+                                <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] && $_SESSION['user_id'] == $review['user_id']): ?>
+                                    <div class="review-actions">
+                                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET" class="d-inline">
+                                            <input type="hidden" name="edit_review_id" value="<?php echo $review['review_id']; ?>">
+                                            <input type="hidden" name="review_text" value="<?php echo htmlspecialchars($filtered_review_text); ?>">
+                                            <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+                                            <button type="submit" class="btn btn-outline-secondary btn-sm">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                        </form>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-info">No reviews yet.</div>
+                <?php endif; ?>
+            </div>
         </div>
-        <button type="submit" class="buy-btn text-uppercase">Submit</button>
-    </form>
-</section>
+
+        <!-- Right Column for Add/Edit Review -->
+        <div class="col-md-4">
+            <?php if (isset($_GET['edit_review_id'])): ?>
+                <!-- Edit Review Form -->
+                <div class="edit-review-form">
+                    <h4>Edit Your Review</h4>
+                    <hr>
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="edit-review-form" action="" method="POST">
+                                <input type="hidden" name="review_id" value="<?php echo htmlspecialchars($_GET['edit_review_id']); ?>">
+                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($_GET['product_id']); ?>">
+                                <textarea class="form-control" name="review_text" rows="3" required><?php echo htmlspecialchars($_GET['review_text']); ?></textarea>
+                                <div class="mt-3">
+                                    <button type="submit" name="submit_review" class="btn btn-review">Update Review</button>
+                                    <a href="<?php echo $_SERVER['PHP_SELF']; ?>?product_id=<?php echo $product_id; ?>" class="btn btn-outline-secondary ms-2">Cancel</a>
+                                </div>
+                            </form>
+                            <!-- Delete Review Form -->
+                            <form id="delete-review-form" action="" method="POST" class="mt-3">
+                                <input type="hidden" name="review_id" value="<?php echo htmlspecialchars($_GET['edit_review_id']); ?>">
+                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($_GET['product_id']); ?>">
+                                <button type="submit" name="delete_review" class="btn btn-danger w-100">Delete Review</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php else: ?>
+                <!-- Add Review Form -->
+                <div class="add-review-form">
+                    <h4>Leave a Review</h4>
+                    <hr>
+                    <?php if (!isset($_SESSION['logged_in'])): ?>
+                        <div class="card">
+                            <div class="card-body">
+                                <a href="login.php" class="btn btn-review">Log in to leave a review</a>
+                            </div>
+                        </div>
+                    <?php elseif (isset($_SESSION['user_id']) && $purchase_count > 0): ?>
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="submit-review-form" action="submit_review.php" method="POST">
+                                    <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+                                    <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+                                    <textarea name="review_text" required class="form-control" rows="3" placeholder="Write a review..."></textarea>
+                                    <button type="submit" class="btn btn-review mt-3">Submit Review</button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="card">
+                            <div class="card-body">
+                                <p>You must purchase this product to leave a review.</p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 
 
 <script>
@@ -157,7 +264,48 @@ $related_products_result = $conn->query($related_products_query); // Replaced $m
             mainImg.src = smallImg[i].src;
         }
     }
-    </script>
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const productID = "<?php echo htmlspecialchars($product_id); ?>"; // Embed PHP product ID
+        const savedProductID = sessionStorage.getItem("productID");
+        const savedScrollPosition = sessionStorage.getItem("scrollPosition");
+
+        // Restore scroll position only if the product ID matches
+        if (savedProductID === productID && savedScrollPosition !== null) {
+            window.scrollTo(0, parseInt(savedScrollPosition, 10));
+        } else {
+            // Reset scroll position for different product IDs
+            window.scrollTo(0, 0);
+        }
+
+        // Clear session storage for a fresh state
+        sessionStorage.removeItem("productID");
+        sessionStorage.removeItem("scrollPosition");
+
+        // Save scroll position before self-redirects (same product)
+        const forms = document.querySelectorAll("form");
+        const links = document.querySelectorAll("a");
+
+        forms.forEach(form => {
+            form.addEventListener("submit", () => {
+                sessionStorage.setItem("scrollPosition", window.scrollY);
+                sessionStorage.setItem("productID", productID);
+            });
+        });
+
+        links.forEach(link => {
+            link.addEventListener("click", (e) => {
+                // Save scroll only for internal links pointing to the same product
+                if (link.hostname === window.location.hostname && link.href.includes(`product_id=${productID}`)) {
+                    sessionStorage.setItem("scrollPosition", window.scrollY);
+                    sessionStorage.setItem("productID", productID);
+                }
+            });
+        });
+    });
+</script>
 
 
 

@@ -76,11 +76,15 @@ if(isset($_POST['change_password'])){
     $confirmPassword = $_POST['confirmPassword'];
     $user_email = $_SESSION['user_email'];
 
+    // Regex validation for password
+    // Requires at least 6 characters, one uppercase, one lowercase, one number
+    if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/", $password)) {
+        header('location: account.php?error=Password must be at least 6 characters, include uppercase, lowercase, and a number');
+        exit;
+    }
+
     if($password !== $confirmPassword){
         header('location: account.php?error=Passwords do not match');
-        exit;
-    } else if(strlen($password) < 6){
-        header('location: account.php?error=Password must be at least 6 characters');
         exit;
     } else {
         $hashed_password = md5($password);
@@ -98,17 +102,18 @@ if(isset($_POST['change_password'])){
     }
 }
 
+//This is for name validation through regex
 if(isset($_POST['update_name'])) {
     $user_id = $_SESSION['user_id'];
     $new_name = $_POST['name'];
     
-    // Basic validation
-    if(empty($new_name)) {
-        header('location: account.php?error=Name cannot be empty');
+    // Regex validation for name
+    if(!preg_match("/^[a-zA-Z\s'-]{2,50}$/", $new_name)) {
+        header('location: account.php?error=Invalid name format. Use 2-50 letters, spaces, apostrophes, and hyphens');
         exit;
     }
 
-    // Update user name
+    // Update username
     $stmt = $conn->prepare("UPDATE users SET user_name = ? WHERE user_id = ?");
     $stmt->bind_param('si', $new_name, $user_id);
     
@@ -124,14 +129,26 @@ if(isset($_POST['update_name'])) {
     $stmt->close();
 }
 
+
+
+
+
+//This is for validating the email through regex.
 if(isset($_POST['update_email'])) {
     $user_id = $_SESSION['user_id'];
     $new_email = $_POST['email'];
+    $confirm_email = $_POST['confirmEmail'];
     $current_email = $_SESSION['user_email'];
     
-    // Basic validation
-    if(empty($new_email)) {
-        header('location: account.php?error=Email cannot be empty');
+    // Regex validation for email
+    if(!preg_match("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $new_email)) {
+        header('location: account.php?error=Invalid email format');
+        exit;
+    }
+
+    // Check if emails match
+    if($new_email !== $confirm_email) {
+        header('location: account.php?error=Emails do not match');
         exit;
     }
 
@@ -225,38 +242,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 })
-
-// Replace the existing form validation JavaScript with this updated version
-document.addEventListener('DOMContentLoaded', function() {
-    // Add form validation for the name form
-    const nameForm = document.getElementById('name-form');
-    if (nameForm) {
-        nameForm.addEventListener('submit', function(e) {
-            const nameInput = document.getElementById('account-name');
-            
-            if (nameInput.value.trim() === '') {
-                alert('Name cannot be empty');
-                e.preventDefault();
-                return;
-            }
-        });
-    }
-    
-    // Add form validation for the email form
-    const emailForm = document.getElementById('email-form');
-    if (emailForm) {
-        emailForm.addEventListener('submit', function(e) {
-            const emailInput = document.getElementById('account-email');
-            
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(emailInput.value)) {
-                alert('Please enter a valid email address');
-                e.preventDefault();
-                return;
-            }
-        });
-    }
-});
 
 </script>
 

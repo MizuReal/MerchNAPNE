@@ -4,10 +4,9 @@
 <!--Home-->
 <section id="home" class="my-5 py-5">
     <div class="container">
-        <h5>NEW ARRIVALS</h5>
+        <h4>NEW ARRIVALS</h4>
         <h1><span>BEST PRICES</span> THIS SEASON </h1>
-        <p>Eshop offers the best product for the most affordable prices</p>
-        <button class="btn btn-custom text-uppercase">SHOP NOW</button>
+        <a href="shop.php" class="text-uppercase">SHOP NOW</a>
     </div>
 </section>
  
@@ -89,7 +88,7 @@
     <div class="container">
         <h4>MID SEASON'S SALE</h4>
         <h1>Autumn Collection <br> UP to 30% OFF</h1>
-        <button class="text-uppercase">shop now</button>
+        <a href="shop.php" class="text-uppercase">SHOP NOW</a>
     </div>
 </section>
 

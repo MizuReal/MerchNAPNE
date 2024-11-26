@@ -12,6 +12,13 @@ if (isset($_POST['order_pay_button'])) {
     // Store the total price in the session
     $_SESSION['total'] = $order_total_price; // Update session with the correct total
 }
+
+// Check if the "Check your Account for Orders" button was clicked
+if (isset($_POST['pay_now'])) {
+    // Redirect to account.php
+    header("Location: account.php");
+    exit(); // Stop further execution of the script after the redirect
+}
 ?>
 
 <!-- Payment Section -->
@@ -23,8 +30,8 @@ if (isset($_POST['order_pay_button'])) {
     <div class="mx-auto container text-center">
         <?php if (isset($_SESSION['total']) && $_SESSION['total'] != 0) { ?>
             <p>Total Payment: $<?php echo $_SESSION['total']; ?> </p>
-            <form action="payment_processor.php" method="POST">
-                <input class="btn btn-primary" type="submit" name="pay_now" value="Pay Now" />
+            <form method="POST">
+                <input class="btn btn-primary" type="submit" name="pay_now" value="Check your Account for Orders" />
             </form>
         <?php } else if (isset($_POST['order_total_price']) && $_POST['order_total_price'] != 0) { ?>
             <p>Total Payment: $<?php echo $_POST['order_total_price']; ?> </p>

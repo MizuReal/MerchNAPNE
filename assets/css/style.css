@@ -100,9 +100,32 @@ h6 {
     background-attachment: fixed;
 }
 
-#new, #featured {
-    margin-bottom: 0;
-    padding-top: 5px;
+#home h4{
+    color: coral;
+}
+
+#home h1{
+    color: coral;
+}
+
+#home a {
+    color: turquoise; /* Match the text color of the navbar links */
+    background-color: transparent; /* Transparent background for the button effect */
+    border: 2px solid turquoise; /* Solid border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Add padding for better size */
+    font-weight: 500; /* Match the navbar font weight */
+    font-size: 1rem; /* Set font size to match navbar */
+    margin-top: 10px; /* Add some spacing from the text above */
+    text-decoration: none; /* Remove underline from links */
+    display: inline-block; /* Ensure proper button-like appearance */
+    transition: background-color 0.4s ease, color 0.4s ease; /* Transition for background and text color */
+}
+
+#home a:hover {
+    color: turquoise; /* Change text color on hover */
+    background-color: coral; /* Change background color on hover */
+    border: 2px solid coral; /* Change border color on hover */
 }
 
 
@@ -110,6 +133,10 @@ h6 {
     color: turquoise;
 }
 
+#new, #featured {
+    margin-bottom: 0;
+    padding-top: 5px;
+}
 
 #new .one img{
     width: 100%;
@@ -296,15 +323,24 @@ hr{
 #banner h4{
     color: turquoise;
 }
-#banner button{
-    background-color: turquoise;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-weight: 600;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    border-radius: 5px;
+#banner a {
+    background-color: turquoise; /* Background color for the button effect */
+    color: #fff; /* Text color */
+    border: none; /* Remove default link border */
+    padding: 10px 20px; /* Add padding for size */
+    font-weight: 600; /* Bold text */
+    text-transform: uppercase; /* Make text uppercase */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underline from the link */
+    display: inline-block; /* Make it behave like a button */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth hover effect */
 }
+
+#banner a:hover {
+    background-color: coral; /* Change background on hover */
+    color: #fff; /* Ensure text color stays white */
+}
+
 
 footer {
     background-color: turquoise;
@@ -458,6 +494,7 @@ footer .copyright img{
 
 .cart .edit-btn
 {
+    text-transform: uppercase;
     color: coral;
     text-decoration: none;
     font-size: 14px;
@@ -465,8 +502,29 @@ footer .copyright img{
     border-color: coral;
 }
 
-.cart .product-info p{
-    margin: 3px;
+.cart .product-info {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Add space between image and text */
+    white-space: nowrap; /* Prevent wrapping of text */
+}
+
+.cart td {
+    vertical-align: middle; /* Align content vertically within the cell */
+}
+
+.cart td img {
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.cart .remove-btn {
+    width: auto; /* Remove 100% width to stop it from stretching */
+    padding: 5px 10px; /* Add consistent padding */
+    text-align: center; /* Center the button text */
+}
+
+.cart h2 {
+    text-align: center; /* Centers the text */
 }
 
 .cart {
@@ -474,6 +532,20 @@ footer .copyright img{
     padding: 20px; /* Adds padding around the section */
     max-width: 800px; /* Sets a maximum width */
 }
+.cart hr{
+        width: 80%;  /* Adjust width as needed */
+        margin: 0 auto;  /* Center the element horizontally */
+    
+    
+}
+
+.alert {
+    margin: 0 auto; /* Centers the element horizontally */
+    width: 80%; /* Adjust width as needed */
+    text-align: center; /* Optionally, centers the text inside */
+}
+
+
 
 table {
     width: 100%; /* Makes the table take full width of the container */
@@ -509,7 +581,12 @@ td:last-child{
 .checkout-btn{
     display: flex;
     justify-content: flex-end;
+    color: white;
     background-color: coral;
+}
+.checkout-btn:hover{
+    color: #000000;
+    background-color: turquoise;
 }
 
 /* login */
@@ -810,3 +887,89 @@ td:last-child{
     .upload-overlay i {
         color: white;
     }
+    /* Reviews Section Styles */
+.reviews-container {
+    max-height: 600px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.reviews-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.reviews-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.reviews-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+/* Review cards styling */
+.review.card {
+    transition: box-shadow 0.3s ease;
+}
+
+.review.card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Review form styling */
+.add-review-form .card,
+.edit-review-form .card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.add-review-form textarea,
+.edit-review-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Headers alignment */
+.product-reviews h4,
+.add-review-form h4,
+.edit-review-form h4 {
+    margin-bottom: 1rem;
+}
+
+/* Consistent HR styling */
+.product-reviews hr,
+.add-review-form hr,
+.edit-review-form hr {
+    margin-bottom: 1.5rem;
+}
+
+/* Button styling */
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-review {
+    color: white;
+    background-color: coral;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.btn-review:hover {
+    color: #fff;
+    background-color: #000000;
+}

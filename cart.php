@@ -3,12 +3,29 @@
 
 <?php
 session_start();
+
 // Function to show message
 function showMessage($message, $type = 'info') {
     $_SESSION['message'] = array(
         'text' => $message,
         'type' => $type
     );
+}
+
+// Check login status first - but store cart action if not logged in
+if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
+    if ($_POST) {
+        // Store the POST data in session before redirecting
+        $_SESSION['pending_cart_action'] = $_POST;
+    }
+    header("Location: login.php");
+    exit;
+}
+
+// Process pending cart action after successful login
+if (isset($_SESSION['pending_cart_action'])) {
+    $_POST = $_SESSION['pending_cart_action'];
+    unset($_SESSION['pending_cart_action']);
 }
 
 if (isset($_POST['add_to_cart'])) {
@@ -30,6 +47,7 @@ if (isset($_POST['add_to_cart'])) {
                 );
                 
                 $_SESSION['cart'][$product_id] = $product_array;
+                showMessage("Product added to cart successfully", "success");
             } else {
                 showMessage("Product is already added to the cart", "info");
             }
@@ -44,10 +62,10 @@ if (isset($_POST['add_to_cart'])) {
             );
             
             $_SESSION['cart'][$product_id] = $product_array;
+            showMessage("Product added to cart successfully", "success");
         }
         calculateTotalCart();
     }
-
 } else if (isset($_POST['remove_product'])) {
     $product_id = $_POST['product_id'];
     
@@ -61,7 +79,6 @@ if (isset($_POST['add_to_cart'])) {
         
         calculateTotalCart();
     }
-
 } else if (isset($_POST['edit_quantity'])) {
     $product_id = $_POST['product_id'];
     $product_quantity = (int)$_POST['product_quantity'];
@@ -73,7 +90,6 @@ if (isset($_POST['add_to_cart'])) {
         $_SESSION['cart'][$product_id]['product_quantity'] = $product_quantity;
         calculateTotalCart();
     }
-
 } else {
     if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
         showMessage("Cart is empty", "info");
@@ -99,12 +115,10 @@ function calculateTotalCart() {
 }
 
 if (isset($_POST['empty_cart'])) {
-    // Clear the cart
     unset($_SESSION['cart']);
-    // Optionally clear the total as well
     unset($_SESSION['total']);
     showMessage("Your cart has been emptied", "info");
-    header("Location: cart.php"); // Redirect to refresh the page
+    header("Location: cart.php");
     exit;
 }
 ?>
